@@ -20,8 +20,10 @@ const getWeatherInfo = async (city) => {
         }
 
         const weatherData = await response.json()
-        console.log(weatherData);
-
+        console.log("\nWeather Information");
+        console.log(`\nTemperature: ${weatherData.main.temp}`);
+        console.log(`Humidity: ${weatherData.main.humidity}`);
+        console.log(`Description: ${weatherData.weather[0].description}`);
     } catch (error) {
         console.log(error.message);
     }
