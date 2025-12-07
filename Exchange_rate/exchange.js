@@ -24,7 +24,8 @@ https.get(url, (response) => {
         rl.question("Enter amount in USD: ", (amount) => {
             rl.question("Enter currency to convert (eg, INR, NPR): ", (curr) => {
                 const rate = rates[curr.toUpperCase()]
-                console.log(`${amount} NPR is equal to ${convertRate(Number(amount), rate)} ${curr.toUpperCase()}`);
+                console.log(`${amount} USD is equal to ${convertRate(Number(amount), rate)} ${curr.toUpperCase()}`);
+                rl.close()
             })
         })
     })
