@@ -1,0 +1,50 @@
+body {
+  width: 90%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: azure;
+  width: 200px;
+  padding: 2rem;
+  box-shadow: 0rem 0rem 0.2rem 0rem rgb(32, 31, 31);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 15rem;
+}
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+input {
+  padding: 0.5rem;
+  outline: none;
+}
+
+button {
+  background-color: rgb(61, 61, 219);
+  color: white;
+  padding: 0.4rem;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: rgb(62, 62, 253);
+}

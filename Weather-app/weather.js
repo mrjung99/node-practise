@@ -10,7 +10,6 @@ const rl = readline.createInterface({
 
 const getWeatherInfo = async (city) => {
 
-    // const url = "https://api.openweathermap.org/data/2.5/weather?q=kathmandu&appid=2573c6cab7a21bba77d2ff9e5abe7e4c"
     const url = `${BASEURL}?q=${city}&appid=${API_KEY}&units=metric`;
 
     try {
@@ -20,10 +19,12 @@ const getWeatherInfo = async (city) => {
         }
 
         const weatherData = await response.json()
+
         console.log("\nWeather Information");
         console.log(`\nTemperature: ${weatherData.main.temp}`);
         console.log(`Humidity: ${weatherData.main.humidity}`);
         console.log(`Description: ${weatherData.weather[0].description}`);
+
     } catch (error) {
         console.log(error.message);
     }
