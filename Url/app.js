@@ -21,10 +21,8 @@ const server = http.createServer(async (req, res) => {
         if (req.url === "/") {
             return serveFile(res, path.join("public", "index.html"), "text/html")
         }
-        else if (req.method === "GET") {
-            if (req.url === "/style.css") {
-                return serveFile(res, path.join("public", "style.css"), "text/css")
-            }
+        else if (req.url === "/style.css") {
+            return serveFile(res, path.join("public", "style.css"), "text/plain")
         }
     }
 })
