@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css" />
     <title>URL SHORTNER</title>
   </head>
+
   <body>
     <section class="container">
       <h1>URL Shortner</h1>
@@ -22,15 +23,34 @@
 
         <button type="submit">Shorten</button>
       </form>
+      <h1>Shortended URLS</h1>
+      <ul id="shortened-urls"></ul>
     </section>
 
     <script>
+      const getLinks = async () => {
+        try {
+          const response = await fetch("/links");
+          const links = await response.json();
+          console.log(links);
+
+          const list = document.getElementById("shortened-urls");
+          const li = document.createElement("li");
+
+          for (const [shortKey, url] of Object.entries(links)) {
+            li.innerHTML = `<a href="/${shortKey}" target="_blank" >${window.location.origin}/${shortKey}</a> 
+            - ${url}`;
+            list.appendChild(li);
+          }
+        } catch (error) {}
+      };
+
       document.getElementById("form").addEventListener("submit", async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const url = formData.get("url");
         const shortKey = formData.get("shortnerKey");
-        console.log(url, shortKey);
+        // console.log(url, shortKey);
 
         try {
           const response = await fetch("/shortend", {
@@ -40,7 +60,9 @@
           });
 
           if (response.ok) {
+            getLinks();
             alert("Form submitted successfully");
+            e.target.reset();
           } else {
             const errorMessage = await response.text();
             alert(errorMessage);
@@ -49,6 +71,8 @@
           console.log(error);
         }
       });
+
+      getLinks();
     </script>
   </body>
 </html>
