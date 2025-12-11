@@ -9,22 +9,24 @@
 
   <body>
     <section class="container">
-      <h1>URL Shortner</h1>
-      <form action="" id="form">
-        <div class="inputField">
-          <label for="url">Enter Url: </label>
-          <input type="url" name="url" id="url" />
-        </div>
+      <div class="wrapper">
+        <h1>URL Shortner</h1>
+        <form action="" id="form">
+          <div class="inputField">
+            <label for="url">Enter Url: </label>
+            <input type="url" name="url" id="url" />
+          </div>
 
-        <div class="inputField">
-          <label for="shortnerKey">Shorter Key: </label>
-          <input type="text" name="shortnerKey" id="shortnerKey" />
-        </div>
+          <div class="inputField">
+            <label for="shortnerKey">Shorter Key: </label>
+            <input type="text" name="shortnerKey" id="shortnerKey" />
+          </div>
 
-        <button type="submit">Shorten</button>
-      </form>
-      <h1>Shortended URLS</h1>
-      <ul id="shortened-urls"></ul>
+          <button type="submit">Shorten</button>
+        </form>
+      </div>
+      <h1 class="shorted">Shortended URLS</h1>
+      <ul id="shortened-urls" class="shortened-list"></ul>
     </section>
 
     <script>
@@ -35,14 +37,19 @@
           console.log(links);
 
           const list = document.getElementById("shortened-urls");
-          const li = document.createElement("li");
+          list.innerHTML = "";
 
           for (const [shortKey, url] of Object.entries(links)) {
+            const li = document.createElement("li");
+            const truncatedUrl =
+              url.length >= 30 ? `${url.slice(0, 30)}...` : url;
             li.innerHTML = `<a href="/${shortKey}" target="_blank" >${window.location.origin}/${shortKey}</a> 
-            - ${url}`;
+            - ${truncatedUrl}`;
             list.appendChild(li);
           }
-        } catch (error) {}
+        } catch (error) {
+          console.log(error);
+        }
       };
 
       document.getElementById("form").addEventListener("submit", async (e) => {

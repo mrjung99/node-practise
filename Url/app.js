@@ -2,6 +2,7 @@ import { readFile, writeFile } from "fs/promises"
 import http from "http"
 import path from "path"
 import crypto from "crypto"
+import { link } from "fs"
 
 const port = 3000
 const DATA_PATH = path.join("data", "links.json")
@@ -46,10 +47,21 @@ const server = http.createServer(async (req, res) => {
             const links = await getLinks()
             res.writeHead(200, { "Content-Type": "application/json" })
             return res.end(JSON.stringify(links))
+        } else {
+            const links = await getLinks()
+            const shortCode = req.url.slice(1)
+
+            if (links[shortCode]) {
+                res.writeHead(302, { location: links[shortCode] })
+                return res.end()
+            }
+
+            res.writeHead(400, { "Content-Type": "text/plain" })
+            res.end("Shortened url not found")
         }
     }
 
-    if (req.method === "POST" || req.url === "/shortend") {
+    if (req.method === "POST" && req.url === "/shortend") {
         let body = ""
 
         req.on("data", (chunk) => (body += chunk))
