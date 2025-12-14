@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>URL Shortner</title>
+  </head>
+  <body>
+    <section class="container">
+      <div class="wrapper">
+        <h1>Url shortner</h1>
+        <form action="" id="form">
+          <div class="input-field">
+            <label for="url">Enter url: </label>
+            <input type="url" name="url" id="url" />
+          </div>
+          <div class="input-field">
+            <label for="shortCode">Enter Short Code: </label>
+            <input type="text" name="shortCode" id="shortCode" />
+          </div>
+          <button type="submit">Shorten</button>
+        </form>
+        <h1 class="short-title">Shorten urls</h1>
+        <ul id="shortenUrls"></ul>
+      </div>
+    </section>
+    <script>
+      const getLinks = async () => {
+        try {
+          const response = await fetch("/links");
+          const data = await response.json();
+          // console.log(data);
+
+          const list = document.getElementById("shortenUrls");
+          list.innerHTML = "";
+
+          for (const [shortKey, url] of Object.entries(data)) {
+            const li = document.createElement("li");
+            const truncatedUrl =
+              url.length >= 30 ? `${url.slice(0, 30)}...` : url;
+
+            li.innerHTML = `<a href="/${shortKey}" target="_blank" >${window.location.origin}/${shortKey}</a> 
+            - ${truncatedUrl}`;
+            list.appendChild(li);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      document.getElementById("form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const url = formData.get("url");
+        const shortCode = formData.get("shortCode");
+        console.log(url, shortCode);
+
+        try {
+          const response = await fetch("/shortend", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url, shortCode }),
+          });
+
+          if (response.ok) {
+            await getLinks();
+            alert("Form submitted successfully !!");
+            e.target.reset();
+          } else {
+            const errorMessage = await response.text();
+            alert(errorMessage);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      });
+
+      getLinks();
+    </script>
+  </body>
+</html>

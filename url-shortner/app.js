@@ -2,8 +2,9 @@ import { readFile, writeFile } from "fs/promises"
 import http from "http"
 import path from "path"
 import crypto from "crypto"
+import { link } from "fs"
 
-const port = 3000
+const PORT = 3000
 const DATA_PATH = path.join("data", "links.json")
 
 const serveFile = async (res, filePath, contentType) => {
@@ -12,8 +13,8 @@ const serveFile = async (res, filePath, contentType) => {
         res.writeHead(200, { "Content-Type": contentType })
         res.end(data)
     } catch (error) {
-        res.writeHead(404, { "Content-Type": contentType })
-        res.end("404 page not found")
+        res.writeHead(404, { "Content-Type": "text/plain" })
+        res.end("page not found")
     }
 }
 
@@ -26,12 +27,13 @@ const getLinks = async () => {
             await writeFile(DATA_PATH, JSON.stringify({}))
             return {}
         }
+
         throw error
     }
 }
 
-const saveLinks = async (links) => {
-    await writeFile(DATA_PATH, JSON.stringify(links))
+const saveLInks = async (links) => {
+    return await writeFile(DATA_PATH, JSON.stringify(links))
 }
 
 const server = http.createServer(async (req, res) => {
@@ -44,51 +46,54 @@ const server = http.createServer(async (req, res) => {
             return serveFile(res, path.join("public", "style.css"), "text/css")
         } else if (req.url === "/links") {
             const links = await getLinks()
-            res.writeHead(200, { "Content-Type": "application/json" })
+            res.writeHead(200, { "Content-Type": "aaplication/json" })
             return res.end(JSON.stringify(links))
         } else {
             const links = await getLinks()
             const shortCode = req.url.slice(1)
-
             if (links[shortCode]) {
                 res.writeHead(302, { location: links[shortCode] })
                 return res.end()
             }
 
             res.writeHead(400, { "Content-Type": "text/plain" })
-            res.end("Shortened url not found")
+            res.end("Shortend url not found!!")
         }
     }
 
     if (req.method === "POST" && req.url === "/shortend") {
         let body = ""
-
-        req.on("data", (chunk) => (body += chunk))
+        req.on("data", (chunk) => {
+            body += chunk
+        })
 
         req.on("end", async () => {
-            const { url, shortKey } = JSON.parse(body)
+            const { url, shortCode } = JSON.parse(body)
 
             if (!url) {
-                res.writeHead(400, { "Content-Type": "text/plain" })
-                return res.end("URL is required")
+                res.writeHead(404, { "Content-Type": "text/plain" })
+                res.end("URL is required")
             }
 
-            const finalShortCode = shortKey || crypto.randomBytes(4).toString("hex")
+            const finalShortCode = shortCode || crypto.randomBytes(4).toString("hex")
 
             if (links[finalShortCode]) {
-                res.writeHead(400, { "Content-Type": "text/plain" })
-                return res.end("Short code is already taken type another one")
+                res.writeHead(404, { "Content-Type": "text/plain" })
+                res.end("Short code is already taken type another!!")
             }
 
-            links[finalShortCode] = url;
-            await saveLinks(links)
+            links[finalShortCode] = url
+            await saveLInks(links)
 
             res.writeHead(200, { "Content-Type": "application/json" })
             res.end(JSON.stringify({ success: true, shortCode: finalShortCode }))
         })
+
+
     }
 })
 
-server.listen(port, () => {
-    console.log(`Server is running at port ${port}`);
+server.listen(PORT, () => {
+    console.log(`Server is running at port ${PORT}`);
+
 })
