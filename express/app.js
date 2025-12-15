@@ -2,8 +2,9 @@
 //* to create a server
 //* to create and setup .env file
 
-import express from "express"
 
+import express from "express"
+import { PORT } from "./env.js"
 const app = express()
 
 app.get("/", (req, res) => {
@@ -14,7 +15,7 @@ app.get("/about", (req, res) => {
     res.send(`<h1>Hello from about page</h1>`)
 })
 
-const PORT = process.env.PORT || 3000
+// const PORT = PORT || 3000
 app.listen(PORT, () => {
     console.log(`Listening at port no ${PORT}`);
 })
