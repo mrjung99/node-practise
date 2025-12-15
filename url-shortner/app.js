@@ -2,7 +2,6 @@ import { readFile, writeFile } from "fs/promises"
 import http from "http"
 import path from "path"
 import crypto from "crypto"
-import { link } from "fs"
 
 const PORT = 3000
 const DATA_PATH = path.join("data", "links.json")
