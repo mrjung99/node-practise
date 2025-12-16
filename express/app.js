@@ -2,7 +2,7 @@
 //* to create a server
 //* to create and setup .env file
 
-import express from "express"
+import express, { urlencoded } from "express"
 import { PORT } from "./env.js"
 import path from "path"
 
@@ -12,6 +12,12 @@ const app = express()
 const absolutePath = path.join(import.meta.dirname, "public")
 // app.use(express.static(absolutePath)) or
 app.use(express.static("public"))
+
+app.use(express.urlencoded())
+app.post("/contact", (req, res) => {
+    console.log(req.body);
+    res.redirect("/")
+})
 
 // app.get("/", (req, res) => {
 //     // console.log(import.meta.dirname);
