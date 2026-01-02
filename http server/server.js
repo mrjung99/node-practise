@@ -1,14 +1,9 @@
-const http = require("http")
+const url = new URL("https://www.example.com/p/a/t/h?query=string");
 
-const server = http.createServer((req, res) => {
-  if (req.url == "/") {
-    res.write("Welcome to node js")
-    res.end()
-  }
-})
-const port = 3000
+const hostName = url.hostname;
+const pathName = url.pathname;
+const query = url.searchParams;
 
-server.listen(port, () => {
-  console.log(`Server is running at prot ${port}`);
-
-})
+console.log(`hostname : ${hostName}`);
+console.log(`pathname : ${pathName}`);
+console.log(`query : ${query}`);

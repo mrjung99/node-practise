@@ -27,6 +27,11 @@ app.use((req, res) => {
     .sendFile(path.join(import.meta.dirname, "views", "error.html"));
 });
 
+app.get("/", (req, res) => {
+  const { name, message } = req.body;
+  res.status(200).send({ name, message });
+});
+
 // app.get("/", (req, res) => {
 // console.log(import.meta.dirname);
 // console.log(import.meta.filename);

@@ -1,25 +1,45 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Welcome to express js</h1>
     <form action="/contact" method="post">
-        <div>
-            <label for="name">Name: </label>
-            <input type="text" name="name" id="name" placeholder="Enter your name">
-        </div>
+      <div>
+        <label for="name">Name: </label>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Enter your name"
+        />
+      </div>
 
-        <div>
-            <label for="message">Name: </label>
-            <textarea name="message" id="message" placeholder="Enter message"></textarea>
-        </div>
-        <button>Submit</button>
+      <div>
+        <label for="message">Name: </label>
+        <textarea
+          name="message"
+          id="message"
+          placeholder="Enter message"
+        ></textarea>
+      </div>
+      <button onclick="getData()">Submit</button>
     </form>
-</body>
+
+    <script>
+      const getData = async () => {
+        try {
+          const res = await fetch("/");
+          const data = res.json();
+          console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    </script>
+  </body>
 </html>
