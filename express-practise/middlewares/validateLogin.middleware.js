@@ -2,6 +2,7 @@ export function validateLogin(req, res, next) {
   const { email, pass } = req.body;
 
   const errors = [];
+
   if (!email) errors.push({ field: "email", message: "Email is required." });
 
   if (!pass)

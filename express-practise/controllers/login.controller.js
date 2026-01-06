@@ -17,11 +17,9 @@ export function loginController(req, res, next) {
     });
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "An error occured during login. Try again.",
-      });
+    res.status(500).json({
+      success: false,
+      message: "An error occured during login. Try again.",
+    });
   }
 }
