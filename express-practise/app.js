@@ -1,31 +1,18 @@
-import express from "express";
-import { homeroute } from "./routes/home.route.js";
-import { productRoute } from "./routes/product.route.js";
-import { productMiddleware } from "./middlewares/products.middlewares.js";
+import express, { urlencoded } from "express";
+import { loginRoute } from "./routes/login.route.js";
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
-/* const fun0 = (req, res, next) => {
-  console.log("Hello from fun0");
-  res.send("Hello from fun0");
-  next();
-};
+app.use(express.json());
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+app.use("/api/auth", loginRoute);
 
-const fun1 = (req, res, next) => {
-  console.log("Hello from fun1");
-  next();
-};
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ success: false, message: "Internal server error " });
+});
 
-const fun2 = (req, res, next) => {
-  console.log("Hello from fun2");
-};
-//* we also pass array of handler method to the rote 0r multiple func with array
-app.get("/", [fun0, fun1, fun2]); */
-
-//! industry standard routes
-app.use("/api/v1/home", homeroute);
-app.use("/api/v1/products", productRoute);
-
-app.listen(port, () => {
-  console.log(`Server is running at port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running at port ${PORT}`);
 });
