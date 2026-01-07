@@ -64,6 +64,7 @@ export function updateMovie(req, res) {
   const index = movies.indexOf(findMovie);
   //we have to pass req.body with spread operator coz body is the properties of req object so, body:req.body will work or body = req.body and passing body with {..findMovie, body} it will works also
   const updatedMovie = { ...findMovie, ...req.body };
+
   movies[index] = updatedMovie;
 
   fs.writeFile("./data/movies.json", JSON.stringify(movies), (err) => {
@@ -77,7 +78,7 @@ export function updateMovie(req, res) {
       success: true,
       message: "Movie updated successfully!!",
       data: {
-        movie: updateMovie,
+        movie: updatedMovie,
       },
     });
   });

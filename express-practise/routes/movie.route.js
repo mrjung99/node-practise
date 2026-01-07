@@ -9,8 +9,6 @@ import {
 
 export const movieRoute = express.Router();
 
-movieRoute.get("/", getMovies);
-movieRoute.get("/:id", getMovie);
-movieRoute.post("/", postMovie);
-movieRoute.patch("/:id", updateMovie);
-movieRoute.delete("/:id", deleteMovie);
+movieRoute.route("/").get(getMovies).post(postMovie);
+
+movieRoute.route("/:id").get(getMovie).patch(updateMovie).delete(deleteMovie);
