@@ -27,6 +27,7 @@ export function getMovie(req, res) {
   res.status(200).json({
     success: true,
     message: "Movie found.",
+
     data: {
       movie: findMovie,
     },
