@@ -4,6 +4,7 @@ import { movieRoute } from "./routes/movie.route.js";
 
 export const app = express();
 
+//middleware
 app.use(express.json());
 // app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
