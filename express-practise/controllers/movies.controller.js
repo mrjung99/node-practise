@@ -16,7 +16,7 @@ export function checkId(req, res, next, value) {
   next();
 }
 
-//============send all movies when get request ===========
+//--------------- send all movies when get request ------------------
 export function getMovies(req, res) {
   res.status(200).json({
     success: true,
@@ -48,7 +48,7 @@ export function getMovie(req, res) {
   });
 }
 
-// ============ add or post movie ===============
+//--------------------- add or post movie ----------------------
 export function postMovie(req, res) {
   const id = movies.length + 1;
   movies.push({ id, ...req.body });
@@ -64,7 +64,7 @@ export function postMovie(req, res) {
   });
 }
 
-//=============update movie (patch)================
+// -------------------- update movie (patch) -------------------
 export function updateMovie(req, res) {
   const id = Number(req.params.id);
 
@@ -99,16 +99,10 @@ export function updateMovie(req, res) {
   });
 }
 
-//============== delete movie=============
+// ------------------------- delete movie -----------------------------
 export function deleteMovie(req, res) {
   const id = Number(req.params.id);
   const movieToDelete = movies.filter((m) => m.id === id);
-
-  /* if (!movieToDelete) {
-    res
-      .status(404)
-      .json({ success: false, message: `Movie with the id ${id} not found!!` });
-  }*/
 
   const index = movies.indexOf(movieToDelete);
   movies.splice(index, 1);
